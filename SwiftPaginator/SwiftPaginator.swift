@@ -50,7 +50,7 @@ public class Paginator<Element> {
   public typealias ResetHandler   = (Paginator) -> ()
   
   /// Failure Handler Signature
-  public typealias FailureHandler = (Paginator) -> ()
+  public typealias FailureHandler = (Paginator, Error) -> ()
 
   /// The fetchHandler is defined by the user, it defines the behaviour for how to fetch a given page.
   /// NOTE: `receivedResults(_:total:)` or `failed()` must be called within.
@@ -147,9 +147,9 @@ public class Paginator<Element> {
   
   /// Public method to be called within a `fetchHandler`.  Lets the paginator and any obervers know a fetch
   /// has failed.
-  public func failed() {
+  public func failed(error: Error) {
     requestStatus = .done
-    failureHandler?(self)
+    failureHandler?(self, error)
   }
   
 }
